@@ -44,4 +44,31 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    
+    
+    public function anuncios(){
+        return  $this->hasMany('App\Models\Anuncio');
+    }
+    
+    public function ofertas(){
+        return  $this->hasMany('App\Models\Oferta');
+    }
+    
+    public function roles(){
+        return $this->belongsToMany('App\Models\Role');
+    }
+    
+    
+    public function hasRole(string $rolName):bool{
+        
+        foreach($this->roles()->get() as $role){
+            
+            if($role->rol == $rolName){
+                return true;
+            }
+        }
+        
+        return false;
+    }
 }

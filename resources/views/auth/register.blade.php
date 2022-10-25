@@ -29,7 +29,7 @@
                             <label for="apellidos" class="col-md-4 col-form-label text-md-end">Apellidos</label>
 
                             <div class="col-md-6">
-                                <input id="apellidos" type="text" class="form-control @error('apellidos') is-invalid @enderror" name="apellidos" value="{{ old('name') }}" required autocomplete="apellidos" autofocus>
+                                <input id="apellidos" type="text" class="form-control @error('apellidos') is-invalid @enderror" name="apellidos" value="{{ old('apellidos') }}" required autocomplete="apellidos" autofocus>
 
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
@@ -57,7 +57,7 @@
                             <label for="name" class="col-md-4 col-form-label text-md-end">Poblacion</label>
 
                             <div class="col-md-6">
-                                <input id="poblacion" type="text" class="form-control @error('poblacion') is-invalid @enderror" name="poblacion" value="{{ old('poblacion') }}" required autocomplete="name" autofocus>
+                                <input id="poblacion" type="text" class="form-control @error('poblacion') is-invalid @enderror" name="poblacion" value="{{ old('poblacion') }}" required autocomplete="poblacion" autofocus>
 
                                 @error('poblacion')
                                     <span class="invalid-feedback" role="alert">
@@ -72,7 +72,7 @@
                             <label for="cp" class="col-md-4 col-form-label text-md-end">Codigo postal</label>
 
                             <div class="col-md-6">
-                                <input id="cp" type="text" class="form-control @error('cp') is-invalid @enderror" name="cp" value="{{ old('cp') }}" required autocomplete="name" autofocus>
+                                <input id="cp" type="text" class="form-control @error('cp') is-invalid @enderror" name="cp" value="{{ old('cp') }}" required autocomplete="cp" autofocus>
 
                                 @error('poblacion')
                                     <span class="invalid-feedback" role="alert">
@@ -82,6 +82,19 @@
                             </div>
                         </div>
                         
+                           <div class="row mb-3">
+                            <label for="nacimiento" class="col-md-4 col-form-label text-md-end">Nacimiento</label>
+
+                            <div class="col-md-6">
+                                <input id="nacimiento" type="date" class="form-control @error('nacimiento') is-invalid @enderror" name="nacimiento" value="{{ old('nacimiento') }}" required autocomplete="nacimiento" autofocus>
+
+                                @error('poblacion')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
                         
                         <div class="row mb-3">
                             <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
