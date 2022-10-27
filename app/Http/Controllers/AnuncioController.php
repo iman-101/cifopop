@@ -7,38 +7,32 @@ use App\Models\Anuncio;
 
 class AnuncioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
+    public function __construct(){
+        $this->middleware('verified')->except('index','show', 'search');
+        
+      //  $this->middleware('password.confirm')->only('destroy');
+    }
+ 
     public function index()
     {
         $anuncios = Anuncio::orderBy('id','DESC')->paginate(10);
-
-        return view('anuncios.list',['anuncios'=>$anuncios]);
+        
+        $total = Anuncio::count();
+        
+        return view('anuncios.list',['anuncios'=>$anuncios, 'total'=>$total]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function create()
     {
-        return view('anucios.create');
+        return view('anuncios.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        
-        $datos =$request->only(['titulo','descripcion','precio']);
+       
+        $datos =$request->only(['titulo','descripicion','precio']);
         
         $datos +=['imagen'=> NULL];
         
@@ -59,20 +53,19 @@ class AnuncioController extends Controller
 //             FirstBikeCreated::dispatch($bike, $request->user());
             
             return redirect()
-            ->route('anucios.show',$anuncio->id)
+            ->route('anuncio.show',$anuncio->id)
             ->with('success',"Anuncio $anuncio->titulo  se ha creado  satisfactoriamente")
             ->cookie('lastInsertId',$anuncio->id,0);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+  
     public function show($id)
     {
-        //
+        
+        $anuncio = Anuncio::findOrFail($id);
+        
+        return view('anuncios.show',['anuncio'=>$anuncio]);
+        
     }
 
     /**
@@ -83,7 +76,9 @@ class AnuncioController extends Controller
      */
     public function edit($id)
     {
-        //
+     
+        $anuncio = Anuncio::findOrFail($id); 
+        return view('anuncios.update',['anuncio'=>$anuncio]);
     }
 
     /**
@@ -95,7 +90,41 @@ class AnuncioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
+   
+        
+        $datos= $request->only('titulo','descripicion','precio');
+        
+        $anuncio = Anuncio::findOrFail($id);
+        
+        if($request->hasFile('imagen')){
+            
+            if($anuncio->imagen)
+                $aBorrar = config('filesystems.bikesImageDir').'/'.$anuncio->imagen;
+                
+                
+                $imagenNueva=$request->file('imagen')->store(config('filesystems.bikesImageDir'));
+                
+                $datos['imagen'] =pathinfo($imagenNueva, PATHINFO_BASENAME);
+        }
+        
+        if($request->filled('eliminarimagen') && $anuncio->imagen){
+            $datos['iamgen']=NULL;
+            $aBorrar=config('filesystems.bikesImageDir').'/'.$anuncio->imagen;
+        }
+        
+        //si todo va bien
+        
+        if($anuncio->update($datos)){
+            if(isset($aBorrar))
+                Storage::delete($aBorrar);
+        }else{
+            if(isset($imagenNueva))
+                Storage::delete($imagenNueva);
+        }
+        $anuncio->update($request->all());
+        
+        return back()->with('success',"Anuncio  $anuncio->titulo actualizado");
     }
 
     /**
@@ -104,8 +133,25 @@ class AnuncioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    
+    public function delete(Request $request,Anuncio $anuncio){
+        
+       if($request->user()->cant('delete',$anuncio))
+           abort(401, 'No puedes borrar un anuncio que no es tuya');
+        return view('anuncios.delete',['anuncio'=>$anuncio]);
+    }
+    
+    
     public function destroy($id)
     {
-        //
+        if($request->user()->cant('delete',$anuncio))
+            abort(401, 'No puedes borrar un anuncio que no es tuya');
+        
+            if($anuncio->delete() && $anuncio->imagen){
+                             Storage::delete(config('filesystems.bikesImageDir').'/'.$anuncio->imagen);
+                   }
+        
+        return redirect('anuncios')
+                     ->with('success',"Anuncio  $anuncio->titulo eliminado");
     }
 }
