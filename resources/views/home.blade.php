@@ -67,10 +67,10 @@
         </div>
      </div>
   </div>
+
 </div>
 
-
-
+ <div class="container">
       <table class="table table-striped table-bordered my-5">
               <tr>
                 <th>ID</th>
@@ -81,6 +81,7 @@
               </tr>
             
               @forelse($anuncios as $anuncio)
+                      @if($anuncio->user_id == Auth::user()->id)
               <tr>
                   <td>{{$anuncio->id}}</td>
                   <td class="text-center" style="max-width:80px">
@@ -119,6 +120,7 @@
                        @endauth
                     </td>
                     </tr>
+                    @endif
                       @if($loop->last)
                         <tr>
                             <td colspan="7">
@@ -141,8 +143,8 @@
             </table>
             
         
-               
-               </table>
              
-
+             
+</div>
 @endsection
+

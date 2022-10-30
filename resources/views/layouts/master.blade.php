@@ -13,39 +13,56 @@
           
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
           <script src="{{ asset('js/bootstrap.min.js') }}" defer></script>
+          
+       <style>
+           .login .nav-link{
+           
+              color:white;
+           
+           }
+           
+           main{
+           background-color:#f7f6fe;
+         
+           }
+           
+           main > h2{
+             padding-top: 30px;
+             }
+       </style>
     </head>
     
-    <body class="container p-3">
+    <body >
       
      
        
        @section('log')
-           <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container ">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'cifopop') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-               
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
+       <div class="container-flex  bg-dark">
+          <div class="container">
+               <nav class="navbar navbar-expand-md  justify-content-between ">
+                   <div>
+                      <a href=""   class="text-white">tel:789 364 660</a>
+                   </div>
+              
+                
+    
+                    <div class="" >
+                        <!-- Left Side Of Navbar -->
+                   
+    
+                        <!-- Right Side Of Navbar -->
+                    <ul class="navbar-nav ms-auto login">
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link " href="{{ route('login') }}" style="color:white">{{ __('Login') }}</a>
                                 </li>
                             @endif
-
+    
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link " style="color:white" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
                         @else
@@ -60,7 +77,7 @@
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
-
+    
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
@@ -69,49 +86,68 @@
                         @endguest
                     </ul>
                 </div>
-            </div>
-           </nav>
-       
+            
+               </nav>
+           </div>
+       </div>
        @show
     
        @section('navegacion')
        @php($pagina=Route::currentRouteName()) 
-       <nav>
-        
-            <ul class="nav nav-pills my-3">
-                 <li>
-                <a class="nav-link {{$pagina=='portada'? 'active' : ''}}" href="{{route('portada')}}">Inicio</a>
-               </li>
+       <header class="navbar navbar-expand-md">
+           <div class="container">
+               <a class="navbar-brand " href="{{ url('/') }}">
+                    {{ config('app.name', 'cifopop') }}
+                </a>
+                <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto ">
+                   <li class="nav-item">
+                      <a class="nav-link {{$pagina=='portada'? 'active' : ''}}" href="{{route('portada')}}">Inicio</a>
+                    </li>
              
-            
-                <li class="nav-item mr-2">
-                   <a class="nav-link  {{$pagina=='anuncio.index' ? 'active' : ''}}" href="{{route('anuncio.index')}}">Anuncios</a>
                 
-                </li>
-                 @auth
-              
-                <li class="nav-item mr-2">
-                   <a class="nav-link {{$pagina=='home'? 'active' : ''}}" href="{{route('home')}}">Mis Anuncios</a>
-                
-                </li>
-                <li class="nav-item mr-2">
-                   <a class="nav-link {{$pagina=='anuncio.create'? 'active' : ''}}" href="{{route('anuncio.create')}}">Nuevo Anuncio</a>
-                
-                </li>
+                    <li class="nav-item mr-2">
+                       <a class="nav-link  {{$pagina=='anuncio.index' ? 'active' : ''}}" href="{{route('anuncio.index')}}">Anuncios</a>
+                    
+                    </li>
+                     @auth
+                  
+                    <li class="nav-item mr-2">
+                       <a class="nav-link {{$pagina=='home'? 'active' : ''}}" href="{{route('home')}}">Mis Anuncios</a>
+                    
+                    </li>
+                    <li class="nav-item mr-2">
+                       <a class="nav-link {{$pagina=='anuncio.create'? 'active' : ''}}" href="{{route('anuncio.create')}}">Nuevo Anuncio</a>
+                    
+                    </li>
+                      <li class="nav-item mr-2">
+                       <a class="nav-link {{$pagina=='oferta.index'? 'active' : ''}}" href="{{route('oferta.index')}}">Mis Ofertas</a>
+                    
+                    </li>
+                    <li class="nav-item mr-2">
+                       <a class="nav-link {{$pagina=='oferta.create'? 'active' : ''}}" href="{{route('oferta.create')}}">Nueva Oferta</a>
+                    
+                    </li>
           
-                 @endauth
+                    @endauth
             
-
+            
                 
-            </ul>
-        
-        </nav>
+                </ul>
+              </div>
+           </div>
+        </header>
       
         @show
         
 <!--         <h1 class="my-2">Primer ejemplo de CRUD con laravel</h1> -->
         
         <main>
+       
         
            <h2>@yield('titulo')</h2>
         
@@ -125,7 +161,21 @@
 
 
             
-            @yield('contenido')
+            @section('contenido')
+             <div class="container-flex">
+             
+                        
+       <figure class="">
+           <img class="d-block w-100" 
+           src="{{asset('img/home.jpg')}}" 
+           alt="Moto de Canela en Akira" >
+       
+       </figure>
+             
+             
+             </div>
+            
+            @show
             
                    <div class="btn-group" role="group" aria-label="links">
                   @section('enlaces')
@@ -148,7 +198,9 @@
         @show
         
     </body>
- </html>       
+ </html>   
+ 
+     
         
              
         

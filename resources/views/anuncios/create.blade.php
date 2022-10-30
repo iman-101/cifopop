@@ -8,7 +8,7 @@
                  {{csrf_field()}}
                  <div class="form-group row">
                       <label for="inputTitulo class="col-sm-2 col-form-label">Titulo</label>
-                 
+                       
                         <input name="titulo" type="text" class="up form-control col-sm-10" 
                         id="inputTitulo" placeholder="Titulo"  value="{{old('titulo')}}" >
                  </div>

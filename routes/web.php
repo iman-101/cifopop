@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnuncioController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\ContactoController;
+use App\Http\Controllers\OfertaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,4 +26,26 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('/anuncio', AnuncioController::class);
 
 Route::get('anuncio/{anuncio}/delete',[AnuncioController::class, 'delete'])
-->name('anuncio.delete');
+          ->name('anuncio.delete');
+
+Route::resource('/oferta', OfertaController::class);
+
+
+
+Route::get('oferta/{oferta}/delete',[OfertaController::class, 'delete'])
+           ->name('oferta.delete');
+
+           
+Route::put('oferta/{oferta}/update2',[OfertaController::class, 'update2'])
+           ->name('oferta.update2');
+
+
+Route::delete('/anuncios/purgue',[AnuncioController::class,'purgue'])
+             ->name('bikes.purgue');
+
+
+Route::get('/anuncio/{anuncio}/restore',[AnuncioController::class,'restore'])
+            ->name('anuncio.restore');
+
+Route::post('/contacto',[ContactoController::class, 'send'])
+            ->name('contacto.email');

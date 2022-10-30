@@ -3,7 +3,7 @@
 @section('titulo',"Detalles del anuncio $anuncio->titulo  ") 
 @section('contenido')
 
-
+   <div class="container">
            
                 <table class="table table-striped table-bordered">
               <tr>
@@ -69,12 +69,77 @@
                        </a>
                    </div>
              </div>
-           
-           
-
-                @endsection
-   @section('enlaces')
-      @parent
-      <a href="{{route('anuncio.index')}}"  class="btn btn-primary m-2">Garaje</a>
-      
+        <h2>Sus ofertas</h2>   
+               <table class="table table-striped table-bordered">
+              <tr>
+                <th>ID</th>
+                <th>Import</th>
+                <th>Text</th>
+                <th>Data de vigencía</th>
+                <th></th>
+               
+                
+              </tr>
+            
+              @forelse($ofertas as $oferta)
+              <tr>
+                  <td>{{$oferta->id}}</td>
+                
+                  <td>{{$oferta->import}}</td> 
+                  <td>{{$oferta->text}}</td>
+                  <td>{{$oferta->vigenciadate}}</td>
+                  
+                  
+                  <td>
+                  
+                  @if($oferta->acceptada == null && $oferta->rechazada == null)
+                     <form class="" method="POST" action="{{route('oferta.update2',$oferta->id)}}" >
+              
+                       {{csrf_field()}}
+                       <input type="hidden" name="_method" value="PUT">
+                       <input type="hidden" name="acceptada" value="{{date('Y/m/d')}}">
+                       <button type="submit" class="btn btn-success m-2 mt-5" id="acceptar">Acceptada</button>
+                     
+                     </form>
+                   
+                     <form class="" method="POST" action="{{route('oferta.update2',$oferta->id)}}" >
+              
+                       {{csrf_field()}}
+                       <input type="hidden" name="_method" value="PUT">
+                       <input type="hidden" name="rechazada" value="{{date('Y/m/d')}}">
+                       <button type="submit" class="btn btn-danger m-2 mt-5" id="acceptar">Rechazada</button>
+                     
+                     </form>
+                     
+                     @elseif($oferta->acceptada != null)
+                        
+                        Oferta acceptada
+                        <img src="{{asset('img/acceptada.png')}}" width="40" height="40">
+                        
+                     @else 
+                         Oferta rechazada
+                          <img src="{{asset('img/rechazada.png')}}" width="40" height="40">
+                     @endif
+                  
+                  </td> 
+              </tr>
+                  
+                      
+               @empty
+                 <tr>
+                    <td colspan="4">No hay resultados que mostrar</td>
+                   
+                 </tr>
+                     
+                 @endforelse
+             
+            </table>
+            
+            <script>
+              
+            
+            </script>
+</div>
+ 
    @endsection
+  

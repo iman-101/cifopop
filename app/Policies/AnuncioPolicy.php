@@ -15,15 +15,10 @@ class AnuncioPolicy
         //
     }
 
-    /**
-     * Determine whether the user can create models.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function create(User $user)
+  
+    public function create(User $user, Anuncio $anuncio)
     {
-        //
+        return  $user->hasRole('bloqueador');             
     }
 
 
@@ -40,18 +35,19 @@ class AnuncioPolicy
        // return $user->id == $bike->user_id || $user->email == 'admin@larabike.com';
        
         
-        return $user->id == $anuncio->user_id || $user->hasRole('administrador');
+        return $user->id == $anuncio->user_id || $user->hasRole('administrador') ||
+                 $user->hasRole('editor');
     }
 
 
     public function restore(User $user, Anuncio $anuncio)
     {
-        //
+        return $user->id == $anuncio->user_id ;
     }
 
    
     public function forceDelete(User $user,  Anuncio $anuncio)
     {
-        //
+        return $user->hasRole('administrador') || $user->hasRole('editor');
     }
 }

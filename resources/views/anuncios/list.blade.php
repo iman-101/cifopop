@@ -1,41 +1,36 @@
 @extends('layouts.master')
 @section('log')
-@section('titulo','Lista de anuncios') 
+
+
 @section('contenido')
 
-
-           
+   
+        <div class="container">
            <div class="row">
               <div class="col-6 test-start">{{ $anuncios->links() }} </div>
-              @auth
-            <div class="col-6 text-end">
-            
-                <p>Nueva moto <a href="{{route('anuncio.create')}}" class="btn btn-success ml-2">+</a></p>
-            </div>
-            @endauth
-            
-          
+           </div>
             
             
             
-            <table class="table table-striped table-bordered">
-              <tr>
-                <th>Id</th>
-                <th>Titulo</th>
-                <th>Descripcion</th>
+            <div class="container d-flex justify-content-around flex-wrap">
+            
+               @forelse($anuncios as $anuncio)
               
-              
-              </tr>
-            
-              @forelse($anuncios as $anuncio)
-              <tr>
-                  <td>{{$anuncio->id}}</td>
-             
-            
-                  <td>{{$anuncio->titulo}}</td> 
-                  <td>{{$anuncio->descripicion}}</td>
-                
-                       @auth
+               <div class="card shadow" style="width: 300px;margin: 10px;padding: 20px">
+                 
+                    <img class="card-img-top" style="max-width:80%"
+                     
+                     alt="Imagen de {{$anuncio->titulo}}"
+                     titule="Image de {{$anuncio->titulo}}"
+                     src="{{$anuncio->imagen? asset('storage/'.config('filesystems.bikesImageDir')).'/'.$anuncio->imagen:
+                          asset('storage/'.config('filesystems.bikesImageDir')).'/default.png'}}">
+                  <div class="card-body">
+                    <h5 class="card-title">{{$anuncio->titulo}}</h5>
+                    <p class="card-text">{{$anuncio->descripicion}}</p>
+                    <a href="{{route('anuncio.show',$anuncio->id)}}" 
+                    class=""><img height="30" width="30" src="{{asset('img/buttons/show.png')}}"
+                          alt="Ver detalles" title="Ver detalles">
+                      @auth
                        @if(Auth::user()->can('update',$anuncio))
                         <a  href="{{route('anuncio.edit',$anuncio->id)}}">
                          <img height="30" width="30" src="{{asset('img/buttons/update.png')}}"></a>
@@ -47,28 +42,21 @@
                           alt="Borrar" title="Borrar">
                        </a>
                        @endif
-                       @endauth
-                    </td>
-                    </tr>
+                      @endauth</a>
+                  </div>
+                </div>
               
-                      
-               @empty
-                 <tr>
-                    <td colspan="4">No hay resultados que mostrar</td>
-                   
-                 </tr>
                      
+               @empty
+                
+                    <h2>No hay resultados que mostrar</h2>
+                   
                  @endforelse
              
-            </table>
-            <div class="btn-group" role="group" label="Links">
-                <a href="{{url('/')}}" class="btn btn-primary mr-2">Inicio</a>
             </div>
-           </div>
            
-    @endsection
-   @section('enlaces')
-      @parent
-      <a href="{{route('anuncio.index')}}"  class="btn btn-primary m-2">Anuncio</a>
+           </div>
+        
+      @endsection
       
-   @endsection
+     </div>

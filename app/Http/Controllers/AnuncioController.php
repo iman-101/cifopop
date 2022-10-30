@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Anuncio;
+use App\Http\Requests\AnuncioRequest;
 
 class AnuncioController extends Controller
 {
@@ -24,8 +26,11 @@ class AnuncioController extends Controller
     }
 
    
-    public function create()
+    public function create(Request $request,Anuncio $anuncio)
     {
+        if($request->user()->can('create',$anuncio))
+            abort(401, 'No puedes crear un anuncio ');
+        
         return view('anuncios.create');
     }
 
@@ -39,7 +44,7 @@ class AnuncioController extends Controller
         if($request->hasFile('imagen')){
             
             $ruta = $request->file('imagen')->store(config('filesystems.bikesImageDir'));
-            
+            echo $ruta;
             $datos['imagen'] = pathinfo($ruta, PATHINFO_BASENAME);
             
         }
@@ -64,7 +69,10 @@ class AnuncioController extends Controller
         
         $anuncio = Anuncio::findOrFail($id);
         
-        return view('anuncios.show',['anuncio'=>$anuncio]);
+        $ofertas = $anuncio->ofertas()->get();
+        
+        
+        return view('anuncios.show',['anuncio'=>$anuncio, 'ofertas'=>$ofertas]);
         
     }
 
@@ -81,13 +89,6 @@ class AnuncioController extends Controller
         return view('anuncios.update',['anuncio'=>$anuncio]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         
@@ -127,14 +128,9 @@ class AnuncioController extends Controller
         return back()->with('success',"Anuncio  $anuncio->titulo actualizado");
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+  
     
-    public function delete(Request $request,Anuncio $anuncio){
+    public function delete(AnuncioRequest $request,Anuncio $anuncio){
         
        if($request->user()->cant('delete',$anuncio))
            abort(401, 'No puedes borrar un anuncio que no es tuya');
@@ -142,16 +138,12 @@ class AnuncioController extends Controller
     }
     
     
-    public function destroy($id)
+    public function destroy(AnuncioRequest $request,Anuncio $anuncio)
     {
-        if($request->user()->cant('delete',$anuncio))
-            abort(401, 'No puedes borrar un anuncio que no es tuya');
+         $anuncio->delete();
         
-            if($anuncio->delete() && $anuncio->imagen){
-                             Storage::delete(config('filesystems.bikesImageDir').'/'.$anuncio->imagen);
-                   }
-        
-        return redirect('anuncios')
+        return redirect()
+                     ->route('home')
                      ->with('success',"Anuncio  $anuncio->titulo eliminado");
     }
 }
