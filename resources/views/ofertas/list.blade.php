@@ -9,25 +9,32 @@
           
             
             
-            
-            <div class="container d-flex justify-content-around flex-wrap">
-            
-               @forelse($ofertas as $oferta)
+
+           
               
-               <div class="card shadow" style="width: 300px;margin: 10px;padding: 20px">
+             <table class="table">
+               @forelse($ofertas as $oferta)
+                  @if($loop->first)
+                       <tr>
+                       
+                          <th>Import</th>
+                          <th>Texto</th>
+                          <th>data de vigencia</th>
+                           <th>acceptada o rechazada</th>
+                       </tr>
+                @endif
+               <tr>
                  
-                  
-                  <div class="card-body">
-                    <h5 class="card-title">{{$oferta->import}}</h5>
-                    <p class="card-text">{{$oferta->text}}</p>
-                    <p>{{$oferta->vigenciadate}}</p>
+                  <td>{{$oferta->import}}</td>
+                  <td>{{$oferta->text}}</td>
+                  <td>{{$oferta->vigenciadate}}</td>
                     @if($oferta->acceptada != null)
-                    <p>Oferta acceptada :{{$oferta->acceptada}}<img src="{{asset('img/acceptada.png')}}" width="40" height="40"></p>
+                  <td>Oferta acceptada :<img src="{{asset('img/acceptada.png')}}" width="40" height="40"></td>
                   
                  
                    @endif
                     @if($oferta->rechazada != null)
-                         <p>Oferta rechazada: {{$oferta->rechazada}}</p>
+                         <td>Oferta rechazada: <img src="{{asset('img/rechazada.png')}}" width="40" height="40"></td>
                    @endif
                     <a href="{{route('oferta.show',$oferta->id)}}" 
                     class="">
@@ -44,8 +51,7 @@
                         </a>
                        @endif
                      @endauth</a>
-                  </div>
-                </div>
+                </tr>
               
                      
                @empty
@@ -54,7 +60,7 @@
                    
                  @endforelse
              
-            </div>
+           </table>
            
           </div>
         

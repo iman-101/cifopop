@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class OfertaRequest extends FormRequest
+class UsuarioRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,17 +24,19 @@ class OfertaRequest extends FormRequest
     public function rules()
     {
         return [
-            'import'=>'required|numeric|min:0',
-            'text'=>'required|min:3',
-            
+            'poblacion'=>'required|max:16',
+            'name'=>'required|min:3',
+            'email'=>'required',
         ];
     }
     
     public function messages(){
         
         return [
-            'import.min'=>'el import debe ser mayor o igual a cero',
-            'text.min'=> 'El  texto debe tener tres caracteres o más '
+            'poblacion.min'=>'la poblacion deber tener tres caracteres o más',
+            'name.min'=>'el nombre deber tener tres caracteres o más',
+            'email.required'=> 'El  email es obligatorio',
+         
         ];
         
         

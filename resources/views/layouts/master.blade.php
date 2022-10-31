@@ -29,6 +29,12 @@
            main > h2{
              padding-top: 30px;
              }
+             
+         .navbar-nav .nav-link.active, .navbar-nav .show > .nav-link{
+         
+             font-weight: bold;
+         
+         }
        </style>
     </head>
     
@@ -144,22 +150,22 @@
       
         @show
         
-<!--         <h1 class="my-2">Primer ejemplo de CRUD con laravel</h1> -->
+
         
         <main>
        
-        
-           <h2>@yield('titulo')</h2>
+         <div class="container">
+           <h2 class="p-5">@yield('titulo')</h2>
         
 <!--             @includeWhen(Session::has('success'), 'layouts.success') -->
 <!--             @includeWhen($errors->any(), 'layouts.error') -->
-
+ 
             @if(Session::has('success'))
                <x-alert type="success" message="{{ Session::get('success')}}"/>
             @endif
              @includeWhen($errors->any(),'layouts.error')
 
-
+ </div>
             
             @section('contenido')
              <div class="container-flex">
@@ -174,8 +180,9 @@
              
              
              </div>
-            
-            @show
+        @show
+          <div class="container">
+           
             
                    <div class="btn-group" role="group" aria-label="links">
                   @section('enlaces')
@@ -185,6 +192,7 @@
             
             
                   </div>
+             </div>  
         </main>
         
         

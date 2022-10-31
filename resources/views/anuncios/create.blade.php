@@ -2,7 +2,7 @@
 @section('log')
 @section('titulo','Nuevo anuncio') 
 @section('contenido')
-             
+      <div class="container">       
               <form class="my-2 border p-5" method="POST" action="{{route('anuncio.store')}}" enctype="multipart/form-data">
               
                  {{csrf_field()}}
@@ -38,7 +38,7 @@
                   
                   
                    
-                  </div>
+                  
 
                   
                  <div class="form-group row">
@@ -47,7 +47,7 @@
                       <button type="reset" class="btn btn-secondary m-2 ">Borrar</button>
                  </div>
               </form>
-            
+         </div>   
    @endsection
    @section('enlaces')
       @parent

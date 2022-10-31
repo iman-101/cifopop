@@ -46,7 +46,7 @@ class OfertaController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(OfertaRequest $request)
     {
        
         $datos =$request->only(['text','acceptada','import','rechazada','vigenciadate','anuncio_id']);

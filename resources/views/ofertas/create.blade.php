@@ -5,21 +5,22 @@
 
 
   <div class="container">
-          @forelse($anuncios as $anuncio)
-              @if($anuncio->user_id != Auth::user()->id )
-               <table class="table">
+          <table class="table">
                  <tr>
                      <td>ID</td>
                     <td>titulo</td>
                     <td>Imagen</td>
                     <td>description</td>
-                    <td>create oferta</td>
+                    <td></td>
                  </tr>
+          @forelse($anuncios as $anuncio)
+              @if($anuncio->user_id != Auth::user()->id )
+           
                  <tr>
                    <td>{{$anuncio->id}}</td>
                    <td>{{$anuncio->titulo}}</td>
                    <td>
-                    <img class="card-img-top" style="max-width:80%"
+                    <img class="card-img-top" width="50" height="80"
                      
                      alt="Imagen de {{$anuncio->titulo}}"
                      titule="Image de {{$anuncio->titulo}}"
@@ -33,22 +34,21 @@
                          class=""><img height="30" width="30" src="{{asset('img/buttons/show.png')}}"
                           alt="Ver detalles" title="Ver detalles"> </a>
                         
-                        
-                         <div id="accordion">
-                              <div class="card">
-                                <div class="card-header" id="headingOne">
-                                  <h5 class="mb-0">
-                                    <button class="btn btn-link" data-bs-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                      Crear oferta
-                                    </button>
-                                  </h5>
-                                </div>
-                            
-                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                                  <div class="card-body">
-
-
-
+                      
+                    </td>
+                    
+                 </tr>
+                  <tr>
+                      <td colspan="4">
+                          <p>
+                              <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                Crear oferta
+                              </button>
+                                                     
+                        </p>
+                        <div class="collapse" id="collapseExample">
+                          <div class="card card-body">
+                          
                                       <form class="my-2 border p-5" method="POST" action="{{route('oferta.store')}}" >
                                       
                                          {{csrf_field()}}
@@ -86,19 +86,16 @@
                                               <button type="reset" class="btn btn-secondary m-2 ">Borrar</button>
                                          </div>
                                       </form>
-
-
-
-                                  </div>
-                                </div>
-                              </div>
                           </div>
-                    </td>
-                    
-                 </tr>
-                
+                        </div>
                       
-                  </div>
+                      
+                      </td>
+                  
+                  
+                  
+                  </tr>
+               </div>
                   
                   
                </table>
@@ -113,3 +110,9 @@
              
      </div>       
 @endsection
+
+
+
+
+
+                               

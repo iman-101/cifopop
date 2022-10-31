@@ -28,6 +28,9 @@ Route::resource('/anuncio', AnuncioController::class);
 Route::get('anuncio/{anuncio}/delete',[AnuncioController::class, 'delete'])
           ->name('anuncio.delete');
 
+ Route::match(['GET','POST'],'/anuncios/search',[AnuncioController::class,'search'])
+          ->name('anuncio.search');
+
 Route::resource('/oferta', OfertaController::class);
 
 

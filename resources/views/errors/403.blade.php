@@ -2,7 +2,7 @@
 @section('titulo','Error 403') 
 @section('contenido')
 
-
+ <div class="container">
         <div class="m-10">
             <div class="content" style="text-align:center">
                 <div class="title mt-5" style="font-size:3rem">
@@ -14,7 +14,7 @@
             </div>
         </div>   
         
-           
+  </div>         
     @endsection
    @section('enlaces')
       @parent

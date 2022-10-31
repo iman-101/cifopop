@@ -7,8 +7,25 @@
    
         <div class="container">
            <div class="row">
-              <div class="col-6 test-start">{{ $anuncios->links() }} </div>
-           </div>
+             
+            
+            
+            <form method="GET" action="{{route('anuncio.search')}}" class="col-12 row"
+            >
+             
+            
+               <input name="titulo" type="text" class="col form-control mr-2 mb-2"
+               placeholder="titulo" maxlength="16" requied value="{{empty($titulo)? '' : $titulo}}">
+               
+                <input name="descripicion" type="text" class="col form-control mr-2 mb-2"
+               placeholder="descripcion" maxlength="16"  value="{{empty($descripicion)? '' : $descripicion}}">
+              
+               <button type="submit" class="col btn btn-primary mr-2 mb-2">Buscar</button>
+               <a href="{{route('anuncio.index')}}">
+                  <button type="button" class="col btn btn-primary mb-2">Quitar filtro</button>
+               
+               </a>
+            </form>
             
             
             

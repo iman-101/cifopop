@@ -34,7 +34,7 @@ class AnuncioController extends Controller
         return view('anuncios.create');
     }
 
-    public function store(Request $request)
+    public function store(AnuncioRequest $request)
     {
        
         $datos =$request->only(['titulo','descripicion','precio']);
@@ -130,7 +130,7 @@ class AnuncioController extends Controller
 
   
     
-    public function delete(AnuncioRequest $request,Anuncio $anuncio){
+    public function delete(Request $request,Anuncio $anuncio){
         
        if($request->user()->cant('delete',$anuncio))
            abort(401, 'No puedes borrar un anuncio que no es tuya');
@@ -138,7 +138,7 @@ class AnuncioController extends Controller
     }
     
     
-    public function destroy(AnuncioRequest $request,Anuncio $anuncio)
+    public function destroy(Request $request,Anuncio $anuncio)
     {
          $anuncio->delete();
         
@@ -146,4 +146,25 @@ class AnuncioController extends Controller
                      ->route('home')
                      ->with('success',"Anuncio  $anuncio->titulo eliminado");
     }
+    
+    public function search(Request $request){
+        
+        $request->validate([
+            
+            'titulo'=>'max:16',
+            'descripicion'=>'max:255',
+            
+        ]);
+        
+        $titulo=$request->input('titulo','');
+        $descripicion=$request->input('descripicion','');
+        
+        $anuncios= Anuncio::where('titulo','like',"%$titulo%")
+                            ->where('descripicion','like',"%$descripicion")
+                            ->paginate(config('paginator.anuncios'))
+                            ->appends(['titulo'=>$titulo,'descripicion'=>$descripicion]);
+        
+                            return view('anuncios.list',['anuncios'=>$anuncios,'titulo'=>$titulo,'descripicion'=>$descripicion]);
+    }
+    
 }

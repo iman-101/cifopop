@@ -4,7 +4,7 @@
 
 @section('contenido')
          
-
+    <div class="container">
          @if(!Auth::user()->hasVerifiedEmail())
         
               <div class="alert alert-danger">
@@ -27,8 +27,7 @@
           
               </div>
        @endif
-   
- <div class="container">
+
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -66,11 +65,9 @@
              </div>
         </div>
      </div>
-  </div>
+ 
 
-</div>
 
- <div class="container">
       <table class="table table-striped table-bordered my-5">
               <tr>
                 <th>ID</th>
@@ -145,6 +142,7 @@
         
              
              
+     </div>
 </div>
 @endsection
 
