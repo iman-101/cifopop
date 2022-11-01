@@ -11,7 +11,7 @@ class AnuncioController extends Controller
 {
     
     public function __construct(){
-        $this->middleware('verified')->except('index','show', 'search');
+       $this->middleware('verified')->except('index','show', 'search');
         
       //  $this->middleware('password.confirm')->only('destroy');
     }
@@ -89,14 +89,16 @@ class AnuncioController extends Controller
         return view('anuncios.update',['anuncio'=>$anuncio]);
     }
 
-    public function update(Request $request, $id)
+    public function update(AnuncioRequest $request, $id)
     {
-        
-   
-        
+       
         $datos= $request->only('titulo','descripicion','precio');
         
         $anuncio = Anuncio::findOrFail($id);
+        
+        if($request->user()->cant('update',$anuncio))
+            abort(401, 'No puedes actualizar un anuncio ');
+       
         
         if($request->hasFile('imagen')){
             
@@ -109,10 +111,7 @@ class AnuncioController extends Controller
                 $datos['imagen'] =pathinfo($imagenNueva, PATHINFO_BASENAME);
         }
         
-        if($request->filled('eliminarimagen') && $anuncio->imagen){
-            $datos['iamgen']=NULL;
-            $aBorrar=config('filesystems.bikesImageDir').'/'.$anuncio->imagen;
-        }
+       
         
         //si todo va bien
         
@@ -123,6 +122,7 @@ class AnuncioController extends Controller
             if(isset($imagenNueva))
                 Storage::delete($imagenNueva);
         }
+        
         $anuncio->update($request->all());
         
         return back()->with('success',"Anuncio  $anuncio->titulo actualizado");

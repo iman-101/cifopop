@@ -5,6 +5,7 @@ use App\Http\Controllers\AnuncioController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\OfertaController;
+use App\Http\Controllers\AdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,14 +27,16 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('/anuncio', AnuncioController::class);
 
 Route::get('anuncio/{anuncio}/delete',[AnuncioController::class, 'delete'])
-          ->name('anuncio.delete');
+                 ->name('anuncio.delete');
 
- Route::match(['GET','POST'],'/anuncios/search',[AnuncioController::class,'search'])
+Route::match(['GET','POST'],'/anuncios/search',[AnuncioController::class,'search'])
           ->name('anuncio.search');
 
 Route::resource('/oferta', OfertaController::class);
 
-
+Route::get('/usuarios',[AdminController::class,'index'])->name('usuarios.index');
+Route::put('/usuario/{$id}/edit',[AdminController::class,'edit'])->name('usuario.edit');
+Route::get('/usuario/{$id}/edit',[AdminController::class,'delete'])->name('usuario.delete');
 
 Route::get('oferta/{oferta}/delete',[OfertaController::class, 'delete'])
            ->name('oferta.delete');

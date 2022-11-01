@@ -48,7 +48,8 @@ class OfertaPolicy
      */
     public function update(User $user, Oferta $oferta)
     {
-        //
+        return $user->id == $oferta->user_id ||  $user->hasRole('administrador')
+              ||  $user->hasRole('editor');
     }
 
     /**

@@ -121,24 +121,38 @@
                     
                     </li>
                      @auth
+                        @if(  !Auth::user()->hasRole('administrador') && !Auth::user()->hasRole('editor'))
                   
-                    <li class="nav-item mr-2">
-                       <a class="nav-link {{$pagina=='home'? 'active' : ''}}" href="{{route('home')}}">Mis Anuncios</a>
-                    
-                    </li>
-                    <li class="nav-item mr-2">
-                       <a class="nav-link {{$pagina=='anuncio.create'? 'active' : ''}}" href="{{route('anuncio.create')}}">Nuevo Anuncio</a>
-                    
-                    </li>
-                      <li class="nav-item mr-2">
-                       <a class="nav-link {{$pagina=='oferta.index'? 'active' : ''}}" href="{{route('oferta.index')}}">Mis Ofertas</a>
-                    
-                    </li>
-                    <li class="nav-item mr-2">
-                       <a class="nav-link {{$pagina=='oferta.create'? 'active' : ''}}" href="{{route('oferta.create')}}">Nueva Oferta</a>
-                    
-                    </li>
-          
+                        <li class="nav-item mr-2">
+                           <a class="nav-link {{$pagina=='home'? 'active' : ''}}" href="{{route('home')}}">Mis Anuncios</a>
+                        
+                        </li>
+                        <li class="nav-item mr-2">
+                           <a class="nav-link {{$pagina=='anuncio.create'? 'active' : ''}}" href="{{route('anuncio.create')}}">Nuevo Anuncio</a>
+                        
+                        </li>
+                          <li class="nav-item mr-2">
+                           <a class="nav-link {{$pagina=='oferta.index'? 'active' : ''}}" href="{{route('oferta.index')}}">Mis Ofertas</a>
+                        
+                        </li>
+                        <li class="nav-item mr-2">
+                           <a class="nav-link {{$pagina=='oferta.create'? 'active' : ''}}" href="{{route('oferta.create')}}">Nueva Oferta</a>
+                        
+                        </li>
+                    @else
+                      
+                       <li class="nav-item mr-2">
+                           <a class="nav-link {{$pagina=='oferta.index'? 'active' : ''}}" href="{{route('oferta.index')}}"> Ofertas</a>
+                        
+                        </li>
+                      @endif
+                      
+                      @if(Auth::user()->hasRole('administrador'))
+                          <li class="nav-item mr-2">
+                           <a class="nav-link {{$pagina=='usuarios.index'? 'active' : ''}}" href="{{route('usuarios.index')}}"> Usuarios</a>
+                        
+                        </li>
+                      @endif
                     @endauth
             
             

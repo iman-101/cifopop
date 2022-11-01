@@ -9,7 +9,7 @@
                  <input type="hidden" name="_method" value="DELETE">
                 <figure>
                     <figcaption>Imagen actual:</figcaption>
-                    <img class="rounded" style="max-width:400px"
+                    <img class="rounded" width="50"
                       alt="Imagen de {{$anuncio->titulo}}"
                       title="Imagen de {{$anuncio->titulo}}"
                       src="{{$anuncio->imagen? 

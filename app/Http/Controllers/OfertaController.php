@@ -18,8 +18,10 @@ class OfertaController extends Controller
       //  $ofertas = Oferta::orderBy('id','DESC')->paginate(10);
         
         $ofertas = $request->user()->ofertas()->get();
+        
+        $ofertasT =   Oferta::orderBy('id','DESC')->paginate(10);
      
-        return view('ofertas.list',['ofertas'=>$ofertas]);
+        return view('ofertas.list',['ofertas'=>$ofertas,'ofertasT'=>$ofertasT]);
     }
 
     
@@ -39,8 +41,7 @@ class OfertaController extends Controller
             }
         
         }
-            
-            
+          
         
         return   view('ofertas.create',['anuncios'=>$anuncios]);
     }
@@ -62,11 +63,11 @@ class OfertaController extends Controller
         
 //        if($request->user()->bikes->count() == 1)
 //                 FirstBikeCreated::dispatch($bike, $request->user());
-        
-return redirect()
-->route('oferta.create',$oferta->id)
-->with('success',"Oferta $oferta->text  se ha creado  satisfactoriamente")
-->cookie('lastInsertId',$oferta->id,0);
+                
+        return redirect()
+        ->route('oferta.create',$oferta->id)
+        ->with('success',"Oferta $oferta->text  se ha creado  satisfactoriamente")
+        ->cookie('lastInsertId',$oferta->id,0);
     }
     
 
@@ -79,27 +80,39 @@ return redirect()
         
     }
 
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
+      
         
         $oferta = Oferta::findOrFail($id);
         
-        if($oferta->acceptada){
-            abort(401, 'No puedes editar esta oferta: ya esta acceptada. ');
+        if($request->user()->cant('update',$oferta))
+            abort(401, 'No tienes permiso para esta operación. ');
+        
+        if($oferta->acceptada ){
+            abort(401, 'No puedes editar esta oferta : ya esta acceptada. ');
         }
+        
+        if($oferta->rechazada ){
+            abort(401, 'No puedes editar esta oferta : ya esta rechazada. ');
+        }
+        
         return view('ofertas.update',['oferta'=>$oferta]);
     }
     
     public function update(Request $request, $id)
     {
         
-        $datos= $request->only('text','acceptada','import','rechazada','vigenciadate');
+        $datos = $request->only('text','acceptada','import','rechazada','vigenciadate');
          
         $oferta = Oferta::findOrFail($id);
         
-        $oferta->update($request->all());
+        if($request->user()->cant('update',$oferta))
+            abort(401, 'No tienes permiso para esta operación. ');
         
-        return back()->with('success',"Anuncio  $oferta->text actualizada");
+        $oferta->update($datos);
+        
+        return back()->with('success',"Oferta $oferta->id actualizada");
     }
     
     public function update2(Request $request, $id)
