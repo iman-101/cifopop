@@ -33,6 +33,6 @@
    @section('enlaces')
       @parent
       <a href="{{route('anuncio.index')}}"  class="btn btn-primary m-2">Anuncios</a>
-      <a href="{{route('anuncio.show', $anuncio->id)}}"  class="btn btn-primary m-2">Regresar a detalles de la moto</a>
+      <a href="{{route('anuncio.show', $anuncio->id)}}"  class="btn btn-primary m-2">Regresar a detalles del anuncio</a>
       
    @endsection

@@ -46,12 +46,49 @@ Route::put('oferta/{oferta}/update2',[OfertaController::class, 'update2'])
            ->name('oferta.update2');
 
 
-Route::delete('/anuncios/purgue',[AnuncioController::class,'purgue'])
-             ->name('bikes.purgue');
 
 
-Route::get('/anuncio/{anuncio}/restore',[AnuncioController::class,'restore'])
-            ->name('anuncio.restore');
+
+
 
 Route::post('/contacto',[ContactoController::class, 'send'])
             ->name('contacto.email');
+
+Route::prefix('admin')->middleware('auth','is_admin')->group(function(){
+    
+                 Route::get('deletedbikes',[AdminController::class,'deletedBikes'])
+                       ->name('admin.deleted.bikes');
+                 
+                Route::get('/anuncio/{anuncio}/restore',[AdminController::class,'restore'])
+                       ->name('anuncios.restore');
+                
+                Route::delete('/anuncios/purgue',[AdminController::class,'purgue'])
+                       ->name('anuncios.purgue');
+    
+               
+               Route::get('/usuarios/{user}/detalles',[AdminController::class,'userShow'])
+                       ->name('admin.user.show');
+               
+               Route::get('/usuarios',[AdminController::class,'userList'])
+                       ->name('admin.users');
+
+               Route::get('/usuario/buscar',[AdminController::class,'userSerach'])
+                       ->name('admin.users.search');
+
+
+        }
+            
+            
+
+    );
+
+
+
+
+
+
+
+
+
+
+

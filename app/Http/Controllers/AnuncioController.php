@@ -140,10 +140,12 @@ class AnuncioController extends Controller
     
     public function destroy(Request $request,Anuncio $anuncio)
     {
+        
+        
          $anuncio->delete();
         
         return redirect()
-                     ->route('home')
+                     ->route('anuncio.index')
                      ->with('success',"Anuncio  $anuncio->titulo eliminado");
     }
     
@@ -166,5 +168,7 @@ class AnuncioController extends Controller
         
                             return view('anuncios.list',['anuncios'=>$anuncios,'titulo'=>$titulo,'descripicion'=>$descripicion]);
     }
+    
+    
     
 }

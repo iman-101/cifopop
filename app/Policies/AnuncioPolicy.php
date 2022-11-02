@@ -48,6 +48,6 @@ class AnuncioPolicy
    
     public function forceDelete(User $user,  Anuncio $anuncio)
     {
-        return $user->hasRole('administrador') || $user->hasRole('editor');
+        return $user->hasRole('administrador') || $user->id == $anuncio->user_id;
     }
 }
