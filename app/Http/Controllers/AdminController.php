@@ -100,10 +100,10 @@ class AdminController extends Controller
     
     public function userShow(User $user){
         
-        return view('admin.user.show',['user'=>$user]);
+        return view('admin.users.show',['user'=>$user]);
     }
     
-    public function userSerach(Request $request) {
+    public function userSearch(Request $request) {
         $request->validate([
             
             'name'=>'max:32',
@@ -116,7 +116,7 @@ class AdminController extends Controller
         
         $users= User::orderBy('name','ASC')
             ->where('name','like',"%$name%")
-            ->where('email','like',"%$email")
+            ->where('email','like',"%$email%")
             ->paginate(config('pagination.users'))
             ->appends(['name'=>$name,'email'=>$email]);
         

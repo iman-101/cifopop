@@ -6,25 +6,24 @@
 
    
         <div class="container">
-         <div class="row p-3">
-            <div class="col-4">
-            <form method="GET" action="{{route('admin.users.search')}}" class="col-8 "
-            >
-             <div class="row">
-            
-               <input name="name" type="text" class="col form-control mr-2 mb-2"
-               placeholder="Nombre" maxlength="16"  value="{{empty($name)??  ''}}">
-               
-                <input name="email" type="text" class="col form-control mr-2 mb-2"
-               placeholder="Email" maxlength="16"  value="{{empty($email)?? '' }}">
-              
-               <button type="submit" class="col btn btn-primary mr-2 mb-2">Buscar</button>
-               <a href="{{route('admin.users')}}">
-                  <button type="button" class="col btn btn-primary mb-2">Quitar filtro</button>
-               
-               </a>
+         
+            <form method="GET" action="{{route('admin.users.search')}}" class="col-8 ">
+               <div class="row">
+                
+                   <input name="name" type="text" class="col form-control mr-2 mb-2"
+                   placeholder="Nombre" maxlength="16"  value="{{empty($name)? '': $name}}">
+                   
+                    <input name="email" type="text" class="col form-control mr-2 mb-2"
+                   placeholder="Email" maxlength="16"  value="{{empty($email)? '': $email }}">
+                  
+                   <button type="submit" class="col btn btn-primary mr-2 mb-2">Buscar</button>
+                   <a href="{{route('admin.users')}}">
+                      <button type="button" class="col btn btn-primary mb-2">Quitar filtro</button>
+                   
+                   </a>
+                </div>
             </form>
-         </div>
+          
       {{--  <div>{{ $users->links}}</div>--}}
            <table class="table table-striped table-bordred">
                <tr>

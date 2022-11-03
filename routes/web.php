@@ -72,7 +72,7 @@ Route::prefix('admin')->middleware('auth','is_admin')->group(function(){
                Route::get('/usuarios',[AdminController::class,'userList'])
                        ->name('admin.users');
 
-               Route::get('/usuario/buscar',[AdminController::class,'userSerach'])
+               Route::get('/usuario/buscar',[AdminController::class,'userSearch'])
                        ->name('admin.users.search');
 
 
