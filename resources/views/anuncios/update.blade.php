@@ -2,7 +2,7 @@
 @section('log')
 @section('titulo',"Actualizacion  de la anuncio $anuncio->titulo ") 
 @section('contenido')
-
+<div class="container">
            
                  <form class="my-2 border p-5" method="POST" action="{{route('anuncio.update',$anuncio->id)}}" enctype="multipart/form-data">
               
@@ -88,7 +88,7 @@
               </div>
            
            </div>
-         
+       </div>  
    @endsection
    @section('enlaces')
       @parent

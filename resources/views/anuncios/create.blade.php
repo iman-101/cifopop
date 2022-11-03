@@ -1,4 +1,5 @@
 @extends('layouts.master')
+
 @section('log')
 @section('titulo','Nuevo anuncio') 
 @section('contenido')

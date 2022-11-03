@@ -120,6 +120,8 @@
                        <a class="nav-link  {{$pagina=='anuncio.index' ? 'active' : ''}}" href="{{route('anuncio.index')}}">Anuncios</a>
                     
                     </li>
+                    
+                 
                      @auth
                         @if(  !Auth::user()->hasRole('administrador') && !Auth::user()->hasRole('editor'))
                   
@@ -163,7 +165,10 @@
                         </li>
                       @endif
                     @endauth
-            
+                   <li class="nav-item mr-2">
+                   <a class="nav-link {{$pagina=='contacto'? 'active' : ''}}" href="{{route('contacto')}}">Contacto</a>
+                
+                </li>
             
                 
                 </ul>
@@ -175,7 +180,7 @@
         
 
         
-        <main>
+        <main style="height:100%>
        
          <div class="container">
            <h2 class="p-5">@yield('titulo')</h2>

@@ -11,7 +11,7 @@ class IsAdmin
     public function handle(Request $request, Closure $next)
     {
         
-        if(!$request->user()->hasRole('administrador')){
+        if(!$request->user()->hasRole('administrador') ){
             abort(403,'Operacion solamente para el administrador.');
         }
         return $next($request);

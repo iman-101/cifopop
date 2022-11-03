@@ -68,11 +68,11 @@ class AnuncioController extends Controller
     {
         
         $anuncio = Anuncio::findOrFail($id);
-        
+        $usuario = $anuncio->user()->get()->get(0);
         $ofertas = $anuncio->ofertas()->get();
         
         
-        return view('anuncios.show',['anuncio'=>$anuncio, 'ofertas'=>$ofertas]);
+        return view('anuncios.show',['anuncio'=>$anuncio, 'ofertas'=>$ofertas,'usuario'=>$usuario]);
         
     }
 
@@ -82,10 +82,14 @@ class AnuncioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
      
         $anuncio = Anuncio::findOrFail($id); 
+        
+        if($request->user()->cant('update',$anuncio))
+            abort(401, 'No puedes actualizar un anuncio ');
+        
         return view('anuncios.update',['anuncio'=>$anuncio]);
     }
 
@@ -141,11 +145,12 @@ class AnuncioController extends Controller
     public function destroy(Request $request,Anuncio $anuncio)
     {
         
-        
+        if($request->user()->cant('delete',$anuncio))
+            abort(401, 'No puedes borrar un anuncio que no es tuya');
          $anuncio->delete();
         
         return redirect()
-                     ->route('anuncio.index')
+                     ->route('home')
                      ->with('success',"Anuncio  $anuncio->titulo eliminado");
     }
     
@@ -168,6 +173,38 @@ class AnuncioController extends Controller
         
                             return view('anuncios.list',['anuncios'=>$anuncios,'titulo'=>$titulo,'descripicion'=>$descripicion]);
     }
+    
+    
+    public function restore(Request $request,int $id){
+        
+     
+        
+        $anuncio = Anuncio::withTrashed()->find($id);
+        if($request->user()->cant('delete',$anuncio))
+            abort(401, 'No puedes borrar un anuncio que no es tuya');
+        $anuncio->restore();
+        
+        return back()->with(
+            'success', "Anuncio $anuncio->titulo restaurado correctamente.");
+    }
+    
+    public function purgue(Request $request ){
+        
+      echo 'hola';
+        
+        $anuncio = Anuncio::withTrashed()->find($request->input('anuncio_id'));
+        
+        if($request->user()->cant('delete',$anuncio))
+            abort(401, 'No puedes borrar un anuncio que no es tuya');
+        
+        if($anuncio->forceDelete() && $anuncio->imagen){
+            Storage::delete(config('filesystems.bikesImagenDir').'/'.$anuncio->imagen);
+            
+        }
+        
+        return $anuncio;
+    }
+    
     
     
     

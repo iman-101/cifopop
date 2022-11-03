@@ -2,7 +2,7 @@
 @section('log')
 @section('titulo',"Confirmación de borrado de $anuncio->titulo") 
 @section('contenido')
-           
+         <div class="container">
                  <form class="my-2 border p-5" method="POST" action="{{route('anuncio.destroy',$anuncio->id)}}">
               
                  {{csrf_field()}}
@@ -27,7 +27,7 @@
                 <input type="submit" value="Borrar" class="btn btn-danger m-4" id="confirmdelete" >
               </form>
            
-              
+          </div>      
            
    @endsection
    @section('enlaces')

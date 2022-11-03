@@ -42,7 +42,8 @@
                      src="{{$anuncio->imagen? asset('storage/'.config('filesystems.bikesImageDir')).'/'.$anuncio->imagen:
                           asset('storage/'.config('filesystems.bikesImageDir')).'/default.png'}}">
                   <div class="card-body">
-                    <h5 class="card-title">ID: {{$anuncio->id}}</h5>
+                    <h5 class="card-title">{{$anuncio->titulo}}  </h5>
+                    <p>Id: {{$anuncio->id}}</p>
                     <p class="card-text">{{$anuncio->descripicion}}</p>
                     <a href="{{route('anuncio.show',$anuncio->id)}}" 
                     class=""><img height="30" width="30" src="{{asset('img/buttons/show.png')}}"

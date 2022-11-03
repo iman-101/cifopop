@@ -4,7 +4,7 @@
 
 @section('contenido')
          
-    <div class="container">
+    <div class="container" style="height:100%">
          @if(!Auth::user()->hasVerifiedEmail())
         
               <div class="alert alert-danger">
@@ -138,8 +138,58 @@
                  @endforelse
              
             </table>
+            <h2>Anuncios borrados</h2>
+          <table class="table">
+            <tr> 
+                <th>Id</th>
+                <th>Image</th>
+                <th>Titulo</th>
+                <th>Descripcion</th>
+                <th></th>
+            </tr>
+            @foreach($deletedAnuncios as $an)
+             <tr>
+                <td>{{$an->id}}</td>
+               <td class="text-center" style="max-width: 50px">
+                    <img class="rounded" style="max-width:60px"
+                    
+                    alt="Imagen de {{$an->titulo}} "
+                    title="Imagen de {{$an->titulo}} "
+                    src="{{$an->imagen? 
+                     asset('storage/'.config('filesystems.bikesImageDir')).'/'.$an->imagen:
+                        asset('storage/'.config('filesystems.bikesImageDir')).'/default.png'}}">
+                 
+                </td>
+                <td>{{$an->titulo}}</td>
+                <td>{{$an->descripicion}}</td>
+                <td class="text-center"> 
+                   <a href="{{route('anuncios.restore1', $an->id)}}">
+                    <button class="btn btn-success">Restaurar</button>
             
-        
+                    </a>
+                </td>
+            
+             <td class="text-center">
+                <a onclick='if(confirm("Estas seguro?"))
+                          this.nextElementSibling.submit()'>
+                 <button class="btn btn-danger">Eliminar</button>
+                       
+                 </a>
+                 
+                 <form method="POST"class="d-done" action="{{route('anuncios.purgue1')}}">
+                   @csrf
+                   <input name="_method" type="hidden" value="DELETE">
+                 
+                    <input name="anuncio_id" type="hidden" value="{{$an->id}}">
+                 </form>
+            
+            </td>
+                
+            </tr>
+          
+          @endforeach
+          
+          </table>
              
              
      </div>

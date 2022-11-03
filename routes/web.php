@@ -54,6 +54,9 @@ Route::put('oferta/{oferta}/update2',[OfertaController::class, 'update2'])
 Route::post('/contacto',[ContactoController::class, 'send'])
             ->name('contacto.email');
 
+Route::get('/contacto',[ContactoController::class, 'index'])
+            ->name('contacto');
+
 Route::prefix('admin')->middleware('auth','is_admin')->group(function(){
     
                  Route::get('deletedbikes',[AdminController::class,'deletedBikes'])
@@ -83,7 +86,12 @@ Route::prefix('admin')->middleware('auth','is_admin')->group(function(){
     );
 
 
-
+    
+Route::get('/anuncios/{anuncio}/restore1',[AnuncioController::class,'restore'])
+    ->name('anuncios.restore1');
+    
+Route::delete('/anuncio/purgue1',[AnuncioController::class,'purgue'])
+    ->name('anuncios.purgue1');
 
 
 

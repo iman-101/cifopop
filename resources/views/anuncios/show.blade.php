@@ -5,7 +5,7 @@
 
    <div class="container">
            
-                <table class="table table-striped table-bordered">
+                <table class="table table-striped table-bordered bg-white">
               <tr>
                 <td>ID</td>
                 <td>{{$anuncio->id}}</td>
@@ -28,8 +28,18 @@
                   <td>Descripción</td>
                   <td>{{$anuncio->descripicion}}</td>
               </tr>
+              
+              <tr>
+              
+                 <td>Propietario</td>
+                 <td>{{$usuario->name}}
+              </tr>
              
-             
+               <tr>
+              
+                 <td>Poblacion</td>
+                 <td>{{$usuario->poblacion}}
+              </tr>
          
                
           
@@ -75,7 +85,7 @@
                 <th>ID</th>
                 <th>Import</th>
                 <th>Text</th>
-                <th>Data de vigencía</th>
+                <th>Data limite</th>
                 <th></th>
                
                 

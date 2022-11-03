@@ -21,12 +21,14 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
         
         $anuncios = Anuncio::orderBy('id','DESC')->paginate(10);
+        $deletedAnuncios = $request->user()->anuncios()->onlyTrashed()->get();
         
         $total = Anuncio::count();
-        return view('home',['anuncios'=>$anuncios, 'total'=>$total]);
+        
+        return view('home',['anuncios'=>$anuncios, 'total'=>$total,'deletedAnuncios'=>$deletedAnuncios]);
     }
 }
