@@ -101,7 +101,7 @@
                   
                   
                   <td>
-                  
+                @if(Auth::user()->id == $anuncio->user_id)  
                   @if($oferta->acceptada == null && $oferta->rechazada == null)
                      <form class="" method="POST" action="{{route('oferta.update2',$oferta->id)}}" >
               
@@ -130,6 +130,23 @@
                          Oferta rechazada
                           <img src="{{asset('img/rechazada.png')}}" width="40" height="40">
                      @endif
+                  @else
+                  
+                     
+                      @if($oferta->acceptada == null && $oferta->rechazada == null)
+                          
+                           ---
+                         
+                      @elseif($oferta->acceptada != null)
+                      
+                           Oferta acceptada
+                        <img src="{{asset('img/acceptada.png')}}" width="40" height="40">
+                       @else
+                        Oferta rechazada
+                          <img src="{{asset('img/rechazada.png')}}" width="40" height="40">
+                       @endif
+                       
+                   @endif
                   
                   </td> 
               </tr>

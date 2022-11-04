@@ -49,7 +49,14 @@ class OfertaController extends Controller
 
     public function store(OfertaRequest $request)
     {
-       
+        
+//         $oferatss = $datos['anuncio_id']->ofertas()->get();
+//         foreach ($oferatss as $o){
+//             if($o->acceptada != null){
+//                 return back()->with('error',"Oferta $oferta->text  se ha creado  satisfactoriamente");
+//             }
+//         }
+     
         $datos =$request->only(['text','acceptada','import','rechazada','vigenciadate','anuncio_id']);
         
 
@@ -134,13 +141,15 @@ class OfertaController extends Controller
                 
                 $oferta->rechazada = $request->acceptada;
                 if($oferta->id == $id){
-                    $oferta->rechazada = null;
+                   
+                    $oferta->acceptada = $request->acceptada;
                 }
                 
                 $oferta->update([$oferta]);
                 
             }
             
+            return back()->with('success',"Anuncio  $oferta->text actualizada");
             
         }
         
