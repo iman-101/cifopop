@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Role;
 use App\Models\Anuncio;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\QueryException;
 
 
 class AdminController extends Controller
@@ -30,31 +31,31 @@ class AdminController extends Controller
         return view('admin.updateUser',['usuario'=>$usuario]);
     }
     
-    public function update(Request $request, $id)
-    {
+//     public function update(Request $request, $id)
+//     {
         
         
-        $dato['role_id'] = $request->only('role_id');
+//         $dato['role_id'] = $request->only('role_id');
         
-        $usuario = User::findOrFail($id);
+//         $usuario = User::findOrFail($id);
         
-        $roles = Role_user::orderBy('id','DESC')->paginate(10);
+//         $roles = Role_user::orderBy('id','DESC')->paginate(10);
         
         
         
-        if($request->user()->cant('update',$usuario))
-            abort(401, 'No puedes actualizar el rol del usuario ');
-            foreach ($roles as $role){
-                if($role->user_id == $usuario->id){
+//         if($request->user()->cant('update',$usuario))
+//             abort(401, 'No puedes actualizar el rol del usuario ');
+//             foreach ($roles as $role){
+//                 if($role->user_id == $usuario->id){
                     
-                    $role->update($dato);
-                }
-            }
+//                     $role->update($dato);
+//                 }
+//             }
           
-        $usuario->update($request->all());
+//         $usuario->update($request->all());
             
-       return back()->with('success',"Usuario  $user->id actualizado");
-    }
+//        return back()->with('success',"Usuario  $user->id actualizado");
+//     }
     
     
     public function deletedBikes(){
@@ -122,4 +123,42 @@ class AdminController extends Controller
         
         return view('admin.users.list',['users'=>$users,'name'=>$name,'email'=>$email]);
     }
+    
+    public function setRole(Request $request){
+        
+        $role = Role::find($request->input('role_id'));
+        $user = User::find($request->input('user_id'));
+        
+        try{
+            $user->roles()->attach($role->id,[
+             'created_at'  => now(),
+             'updated_at' => now()
+            ]);
+            
+            return back()->with('success',"Role $role->role añadido a $user->name correctamente.");
+        }catch(QueryException $e){
+            return back()
+            ->withErrors("No se puede añadir el rol $role->role a $user->name. Es posible que ya lo tenga.");
+        }
+     
+    }
+    
+    
+    public function removeRole(Request $request){
+        
+        $role = Role::find($request->input('role_id'));
+        $user = User::find($request->input('user_id'));
+        try{
+            $user->roles()->detach($role->id);
+            
+            return back()->with('success',"Role $role->role quitado a $user->name correctamente.");
+        }catch(QueryException $e){
+            return back()
+            ->withErrors("No se puede quitar el rol $role->role a $user->name. Es posible que ya lo tenga.");
+        }
+        
+        
+    }
 }
+
+

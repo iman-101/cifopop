@@ -76,12 +76,7 @@ class AnuncioController extends Controller
         
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function edit(Request $request,$id)
     {
      
@@ -188,21 +183,31 @@ class AnuncioController extends Controller
             'success', "Anuncio $anuncio->titulo restaurado correctamente.");
     }
     
-    public function purgue(Request $request ){
+    public function purgue(Request $request){
         
-      echo 'hola';
-        
+      
+     
         $anuncio = Anuncio::withTrashed()->find($request->input('anuncio_id'));
         
         if($request->user()->cant('delete',$anuncio))
             abort(401, 'No puedes borrar un anuncio que no es tuya');
+        
+        $ofertas = $anuncio->ofertas()->get();
+    
+        foreach($ofertas as $oferta){
+            $oferta->delete();
+        }
+        
+      
         
         if($anuncio->forceDelete() && $anuncio->imagen){
             Storage::delete(config('filesystems.bikesImagenDir').'/'.$anuncio->imagen);
             
         }
         
-        return $anuncio;
+        return back()->with('success',"Moto $anuncio->titulo eliminada definitivamente.");
+
+      
     }
     
     

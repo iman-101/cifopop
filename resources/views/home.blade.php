@@ -109,10 +109,17 @@
                        @endif
                        
                        @if(Auth::user()->can('delete',$anuncio))
-                        <a  href="{{route('anuncio.delete',$anuncio->id)}}">
-                         <img height="30" width="30" src="{{asset('img/buttons/delete.png')}}"
-                          alt="Borrar" title="Borrar">
-                       </a>
+                          <form  method="POST" action="{{route('anuncio.destroy',$anuncio->id)}}">
+              
+                         {{csrf_field()}}
+                         <input type="hidden" name="_method" value="DELETE">
+                         <button type="submit">
+                             <img height="30" width="30" src="{{asset('img/buttons/delete.png')}}"
+                              alt="Borrar" title="Borrar">
+                         </button>
+                          
+                       
+                       </form>
                        @endif
                        @endauth
                     </td>
@@ -170,19 +177,22 @@
                 </td>
             
              <td class="text-center">
-                <a onclick='if(confirm("Estas seguro?"))
-                          this.nextElementSibling.submit()'>
-                 <button class="btn btn-danger">Eliminar</button>
-                       
-                 </a>
+               
                  
-                 <form method="POST"class="d-done" action="{{route('anuncios.purgue1')}}">
-                   @csrf
+                 <form method="POST" class="d-done" action="{{route('anuncios.purguee')}}">
+                     {{csrf_field()}}
                    <input name="_method" type="hidden" value="DELETE">
                  
                     <input name="anuncio_id" type="hidden" value="{{$an->id}}">
+                    
+                <a onclick='if(confirm("Estas seguro?"))
+                          this.nextElementSibling.submit()'>
+                     <input type="submit" alt="Borrar" title="Eliminar"
+                               class="btn btn-danger" value="Eliminar">
+                   </a>    
+              
                  </form>
-            
+           
             </td>
                 
             </tr>
@@ -193,6 +203,6 @@
              
              
      </div>
-</div>
+
 @endsection
 

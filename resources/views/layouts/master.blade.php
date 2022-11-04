@@ -111,6 +111,7 @@
                 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto ">
+                 
                    <li class="nav-item">
                       <a class="nav-link {{$pagina=='portada'? 'active' : ''}}" href="{{route('portada')}}">Inicio</a>
                     </li>
@@ -126,7 +127,7 @@
                         @if(  !Auth::user()->hasRole('administrador') && !Auth::user()->hasRole('editor'))
                   
                         <li class="nav-item mr-2">
-                           <a class="nav-link {{$pagina=='home'? 'active' : ''}}" href="{{route('home')}}">Mis Anuncios</a>
+                           <a class="nav-link {{$pagina=='home'? 'active' : ''}}" href="{{route('home')}}">Home</a>
                         
                         </li>
                         <li class="nav-item mr-2">
@@ -150,10 +151,6 @@
                       @endif
                       
                       @if(Auth::user()->hasRole('administrador'))
-                          <li class="nav-item mr-2">
-                           <a class="nav-link {{$pagina=='usuarios.index'? 'active' : ''}}" href="{{route('usuarios.index')}}"> Usuarios</a>
-                        
-                        </li>
                         <li class="nav-item mr-2">
                            <a class="nav-link {{$pagina=='admin.deleted.bikes'? 'active' : ''}}" href="{{route('admin.deleted.bikes')}}"> 	Anuncios borrados</a>
                         
@@ -180,34 +177,33 @@
         
 
         
-        <main style="height:100%>
+        <main >
        
          <div class="container">
            <h2 class="p-5">@yield('titulo')</h2>
         
-<!--             @includeWhen(Session::has('success'), 'layouts.success') -->
-<!--             @includeWhen($errors->any(), 'layouts.error') -->
+
  
             @if(Session::has('success'))
                <x-alert type="success" message="{{ Session::get('success')}}"/>
             @endif
              @includeWhen($errors->any(),'layouts.error')
 
- </div>
+          </div>
             
             @section('contenido')
-             <div class="container-flex">
+          <div class="container-flex">
              
                         
-       <figure class="">
-           <img class="d-block w-100" 
-           src="{{asset('img/home.jpg')}}" 
-           alt="Moto de Canela en Akira" >
-       
-       </figure>
+           <figure class="">
+               <img class="d-block w-100" 
+               src="{{asset('img/home.jpg')}}" 
+               alt="Moto de Canela en Akira" >
+           
+           </figure>
              
              
-             </div>
+          </div>
         @show
           <div class="container">
            

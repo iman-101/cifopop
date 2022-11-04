@@ -1,12 +1,13 @@
 @extends('layouts.master')
 @section('log')
-
+ @if(Auth::user()->hasRole('administrador'))
+             @section('titulo','Todas las ofertas')
+@endif
 
 @section('contenido')
-
-   
+  
         <div class="container">
-          
+           
              <table class="table">
                    <tr>
                           <th>ID user</th>

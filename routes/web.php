@@ -22,6 +22,8 @@ Route::get('/',[WelcomeController::class,'index'])->name('portada');
 
 Auth::routes(['verify'=>true]);
 
+Route::delete('/anuncio/purgue',[AnuncioController::class,'purgue'])->name('anuncios.purguee');
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::resource('/anuncio', AnuncioController::class);
@@ -77,7 +79,10 @@ Route::prefix('admin')->middleware('auth','is_admin')->group(function(){
 
                Route::get('/usuario/buscar',[AdminController::class,'userSearch'])
                        ->name('admin.users.search');
+               
+               Route::post('/role',[AdminController::class, 'setRole'])->name('admin.user.setRole');       
 
+               Route::delete('role',[AdminController::class, 'removeRole'])->name('admin.user.removeRole'); 
 
         }
             
@@ -90,8 +95,7 @@ Route::prefix('admin')->middleware('auth','is_admin')->group(function(){
 Route::get('/anuncios/{anuncio}/restore1',[AnuncioController::class,'restore'])
     ->name('anuncios.restore1');
     
-Route::delete('/anuncio/purgue1',[AnuncioController::class,'purgue'])
-    ->name('anuncios.purgue1');
+
 
 
 

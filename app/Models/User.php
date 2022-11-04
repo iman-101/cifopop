@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Role;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -72,6 +73,22 @@ class User extends Authenticatable implements MustVerifyEmail
         }
         
         return false;
+    }
+    
+    
+    public function remainingRoles(){
+        
+        
+        $roles = Role::all();
+        
+        $rolesRestantes =[];
+        
+        foreach ($roles as $rol){
+            if(!$this->hasRole("$rol->rol")){
+                $rolesRestantes[] = $rol;
+            }
+        }
+        return $rolesRestantes;
     }
     
   
